@@ -25,8 +25,7 @@ export async function POST(request: NextRequest) {
     if (config.audioBitrate && typeof config.audioBitrate === 'number') {
       config.audioBitrate = `${Math.round(config.audioBitrate / 1000)}k`;
     }
-
-
+  
     try {
       const { exec } = await import('child_process');
       const { promisify } = await import('util');
@@ -35,14 +34,13 @@ export async function POST(request: NextRequest) {
       const fs = await import('fs');
 
       // Ensure output directory exists
-      // const outputDir = path.join(process.cwd(), 'public', 'videos');
-      // if (!fs.existsSync(outputDir)) {
-      //   fs.mkdirSync(outputDir, { recursive: true });
-      // }
+      const outputDir = path.join(process.cwd(), 'public', 'videos');
+      if (!fs.existsSync(outputDir)) {
+        fs.mkdirSync(outputDir, { recursive: true });
+      }
 
-      // const videoFileName = `video-${Date.now()}.mp4`;
-      // const outputPath = path.join(outputDir, videoFileName);
-
+      const videoFileName = `video-${Date.now()}.mp4`;
+      const outputPath = path.join(outputDir, videoFileName);
 
       // Map template to composition ID
       let compositionId = "";
@@ -95,7 +93,7 @@ export async function POST(request: NextRequest) {
         'npx remotion render',
         `"${path.join(process.cwd(), 'remotion', 'index.ts')}"`,
         compositionId,
-        
+        `"${outputPath}"`,
         `--props="${propsFile}"`,
         '--codec=h264',
         '--concurrency=4', // **FIXED: Increased concurrency for faster rendering**
@@ -128,24 +126,24 @@ export async function POST(request: NextRequest) {
       }
 
       // Check if video was created
-      // if (!fs.existsSync(outputPath)) {
-      //   throw new Error('Video file was not created');
-      // }
+      if (!fs.existsSync(outputPath)) {
+        throw new Error('Video file was not created');
+      }
 
-      // // **ADDED: Get actual file size for verification**
-      // const stats = fs.statSync(outputPath);
-      // console.log(`Video rendered successfully: ${outputPath} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
+      // **ADDED: Get actual file size for verification**
+      const stats = fs.statSync(outputPath);
+      console.log(`Video rendered successfully: ${outputPath} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
 
       return NextResponse.json({
         success: true,
-        videoUrl: '',
+        videoUrl: `/videos/${videoFileName}`,
         message: "Video rendered successfully",
         metadata: {
           duration: totalDurationSeconds,
           ayahCount: ayahs.length,
           template: config.template,
           resolution: config.resolution || "1920x1080",
-          fileSize: '',
+          fileSize: stats.size,
           frames: totalFrames
         },
       });

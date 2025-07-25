@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Sparkles, Zap, Crown, Film } from "lucide-react"
+import { Sparkles, Zap, Crown, Film, LayoutTemplate } from "lucide-react"
 
 interface TemplatePickerProps {
   selectedTemplate: "classic" | "modern" | "capcut"
@@ -32,7 +32,7 @@ const templates = [
     id: "capcut" as const,
     name: "Template 1",
     description: "Dynamic animations with zoom effects and golden text",
-    icon: Film ,
+    icon: LayoutTemplate  ,
     features: ["Zoom animations", "Golden Arabic text", "Dark theme", "Spring effects"],
     preview: "bg-gradient-to-br from-slate-900 to-black",
   },

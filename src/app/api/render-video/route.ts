@@ -49,19 +49,45 @@ export async function POST(request: NextRequest) {
       const fs = await import('fs/promises');
       const fsSync = await import('fs');
 
-      // Use /tmp directory for serverless environments (Vercel, AWS Lambda, etc.)
-      const outputDir = isVercel || isProduction 
+      // Detect serverless environment more reliably
+      const isServerless = !!(
+        process.env.VERCEL || 
+        process.env.AWS_LAMBDA_FUNCTION_NAME || 
+        process.env.LAMBDA_TASK_ROOT ||
+        process.env.AWS_EXECUTION_ENV ||
+        !fsSync.existsSync(path.join(process.cwd(), 'public'))
+      );
+
+      console.log('Environment detection:', {
+        isProduction,
+        isVercel,
+        isServerless,
+        cwd: process.cwd(),
+        publicExists: fsSync.existsSync(path.join(process.cwd(), 'public'))
+      });
+
+      // Use /tmp directory for serverless environments, local public for development
+      const outputDir = isServerless 
         ? '/tmp/videos' 
         : path.join(process.cwd(), 'public', 'videos');
       
-      // Ensure output directory exists
+      console.log('Using output directory:', outputDir);
+      
+      // Ensure output directory exists with better error handling
       try {
         await fs.mkdir(outputDir, { recursive: true });
+        console.log('Successfully created output directory:', outputDir);
       } catch (mkdirError) {
-        console.warn('Could not create output directory:', mkdirError);
+        console.warn('Async mkdir failed, trying sync:', mkdirError);
         // Try with sync version as fallback
-        if (!fsSync.existsSync(outputDir)) {
-          fsSync.mkdirSync(outputDir, { recursive: true });
+        try {
+          if (!fsSync.existsSync(outputDir)) {
+            fsSync.mkdirSync(outputDir, { recursive: true });
+            console.log('Successfully created output directory with sync:', outputDir);
+          }
+        } catch (syncError) {
+          console.error('Both async and sync mkdir failed:', syncError);
+          throw new Error(`Cannot create output directory: ${outputDir}. Error: ${syncError}`);
         }
       }
 
@@ -104,7 +130,7 @@ export async function POST(request: NextRequest) {
       console.log(`Duration calculation: ${ayahs.length} ayahs ${totalAyahSeconds}s + ${titleDuration}s title + ${closingDuration}s closing = ${totalDurationSeconds}s (${totalFrames} frames at ${fps}fps)`);
 
       // Create props file in /tmp for serverless
-      const propsFile = isVercel || isProduction 
+      const propsFile = isServerless 
         ? `/tmp/temp-props-${Date.now()}.json`
         : path.join(process.cwd(), 'temp-props.json');
       
@@ -192,9 +218,9 @@ export async function POST(request: NextRequest) {
 
       console.log(`Video rendered successfully: ${outputPath} (${(stats.size / 1024 / 1024).toFixed(2)} MB)`);
 
-      // For production/Vercel, you might need to upload to cloud storage
+      // For production/serverless, you might need to upload to cloud storage
       // and return the cloud URL instead of local path
-      const videoUrl = isVercel 
+      const videoUrl = isServerless 
         ? await uploadToCloudStorage(outputPath, videoFileName) // You'll need to implement this
         : `/videos/${videoFileName}`;
 
@@ -237,8 +263,8 @@ export async function POST(request: NextRequest) {
         console.log('Trying programmatic approach...');
         
         // Only try programmatic approach in development or specific environments
-        if (process.env.VERCEL === '1') {
-          throw new Error('Programmatic rendering not supported on Vercel');
+        if (isServerless && !process.env.ALLOW_PROGRAMMATIC_RENDER) {
+          throw new Error('Programmatic rendering not supported in serverless environment');
         }
         
         const remotionRenderer = await import('@remotion/renderer');
@@ -283,7 +309,7 @@ export async function POST(request: NextRequest) {
 
         console.log(`Programmatic render: ${totalDurationSeconds}s (${totalFrames} frames) for ${ayahs.length} ayahs`);
 
-        const outputDir = process.env.VERCEL ? '/tmp/videos' : path.join(process.cwd(), 'public', 'videos');
+        const outputDir = isServerless ? '/tmp/videos' : path.join(process.cwd(), 'public', 'videos');
         if (!fs.existsSync(outputDir)) {
           fs.mkdirSync(outputDir, { recursive: true });
         }

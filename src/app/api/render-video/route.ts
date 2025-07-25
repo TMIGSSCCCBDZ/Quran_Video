@@ -7,6 +7,7 @@ export const runtime = "nodejs";
 export async function POST(request: NextRequest) {
   try {
     console.log('Starting video render process...');
+
     
     const { ayahs, config } = await request.json();
     console.log('Received data:', { ayahCount: ayahs?.length, template: config?.template });
@@ -312,6 +313,7 @@ export async function OPTIONS() {
     },
   });
 }
+
 
 export async function getAudioDurationFromUrlNode(url: string): Promise<number | null> {
   try {

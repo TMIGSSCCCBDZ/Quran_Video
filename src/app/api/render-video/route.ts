@@ -104,8 +104,9 @@ export async function POST(request: NextRequest) {
       }
 
       // Get audio durations with error handling
-      let audioDurations: number[] = [];
+      let audioDurations: (number | null)[] = [];
       try {
+        
         const audioUrls = config.audioUrl || [];
         audioDurations = await getDurationsForUrlsNode(audioUrls);
       } catch (audioError) {

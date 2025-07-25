@@ -4,7 +4,7 @@ import { ModernTemplate } from './templates/modern-template';
 import { CapcutTemplate } from './templates/capcut-template';
 
 // **NEW: Helper function to calculate duration**
-export const calculateVideoDuration = (ayahs:[], config = {}, audioDurations = []) => {
+export const calculateVideoDuration = (ayahs:[], config :any = {}, audioDurations = []) => {
 const titleDuration = config.titleDuration || 2;
 const closingDuration = config.closingDuration || 1;
 const fps = config.fps || 30;
@@ -103,22 +103,23 @@ export const RemotionRoot: React.FC = () => {
 
 
   // **Calculate default durations**
-  const classicDuration = calculateVideoDuration(defaultAyahs, defaultClassicConfig);
-  const modernDuration = calculateVideoDuration(defaultAyahs, defaultModernConfig);
-const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig);
+  const classicDuration = calculateVideoDuration((defaultAyahs as any), defaultClassicConfig);
+  const modernDuration = calculateVideoDuration((defaultAyahs as any), defaultModernConfig);
+const capcutDuration = calculateVideoDuration((defaultAyahs as any), defaultCapcutConfig);
   return (
     <>
       <Composition
         id="ClassicTemplate"
-        component={ClassicTemplate}
+        component={(ClassicTemplate as any)}
         durationInFrames={classicDuration.durationInFrames}
         fps={30}
         width={1920}
         height={1080}
+        
         defaultProps={{
           ayahs: defaultAyahs,
           config: defaultClassicConfig,
-          audioDurations: defaultAyahs.map(ayah => ayah.audioDuration || 8) // <-- pass this!
+          audioDurations: defaultAyahs.map(ayah => (ayah as any).audioDuration || 8) // <-- pass this!
         }}
         // **KEY: Calculate metadata dynamically based on input props**
         calculateMetadata={({ props }) => {
@@ -136,7 +137,7 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
           }
 
           // Calculate actual duration based on current props
-          const actualDuration = calculateVideoDuration(ayahs, config, audioDurations);
+          const actualDuration = calculateVideoDuration((ayahs as any), config , (audioDurations as any));
           
           console.log('ClassicTemplate calculated metadata:', {
             ayahCount: ayahs.length,
@@ -147,15 +148,15 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
           return {
             durationInFrames: actualDuration.durationInFrames,
             fps: config?.fps || 30,
-            width: config?.width || 1920,
-            height: config?.height || 1080,
+            width: (config as any)?.width || 1920,
+            height: (config as any)?.height || 1080,
           };
         }}
       />
       
    <Composition
         id="ModernTemplate"
-        component={ModernTemplate}
+        component={(ModernTemplate as any)}
         durationInFrames={modernDuration.durationInFrames}
         fps={30}
         width={1920}
@@ -163,7 +164,7 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
         defaultProps={{
           ayahs: defaultAyahs,
           config: defaultModernConfig,
-          audioDurations: defaultAyahs.map(ayah => ayah.audioDuration || 8) // <-- pass this!
+          audioDurations: defaultAyahs.map(ayah => (ayah as any).audioDuration || 8) // <-- pass this!
         }}
         // **KEY: Calculate metadata dynamically based on input props**
         calculateMetadata={({ props }) => {
@@ -181,7 +182,7 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
           }
 
           // Calculate actual duration based on current props
-          const actualDuration = calculateVideoDuration(ayahs, config, audioDurations);
+          const actualDuration = calculateVideoDuration((ayahs as any), config, (audioDurations as any));
           
           console.log('Modern calculated metadata:', {
             ayahCount: ayahs.length,
@@ -192,14 +193,14 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
           return {
             durationInFrames: actualDuration.durationInFrames,
             fps: config?.fps || 30,
-            width: config?.width || 1920,
-            height: config?.height || 1080,
+            width: (config as any)?.width || 1920,
+            height: (config as any)?.height || 1080,
           };
         }}
       />
            <Composition
         id="CapcutTemplate"
-        component={CapcutTemplate}
+        component={(CapcutTemplate as any)}
         durationInFrames={capcutDuration.durationInFrames}
         fps={30}
         width={1920}
@@ -207,7 +208,7 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
         defaultProps={{
           ayahs: defaultAyahs,
           config: defaultCapcutConfig,
-          audioDurations: defaultAyahs.map(ayah => ayah.audioDuration || 8) // <-- pass this!
+          audioDurations: defaultAyahs.map(ayah => (ayah as any).audioDuration || 8) // <-- pass this!
         }}
         // **KEY: Calculate metadata dynamically based on input props**
         calculateMetadata={({ props }) => {
@@ -225,7 +226,7 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
           }
 
           // Calculate actual duration based on current props
-          const actualDuration = calculateVideoDuration(ayahs, config, audioDurations);
+          const actualDuration = calculateVideoDuration((ayahs as any), config, (audioDurations as any));
           
           console.log('Capcut calculated metadata:', {
             ayahCount: ayahs.length,
@@ -236,8 +237,8 @@ const capcutDuration = calculateVideoDuration(defaultAyahs, defaultCapcutConfig)
           return {
             durationInFrames: actualDuration.durationInFrames,
             fps: config?.fps || 30,
-            width: config?.width || 1920,
-            height: config?.height || 1080,
+            width: (config as any)?.width || 1920,
+            height: (config as any)?.height || 1080,
           };
         }}
       />

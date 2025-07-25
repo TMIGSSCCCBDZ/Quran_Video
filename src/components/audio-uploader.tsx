@@ -35,7 +35,7 @@ const handleReciterSelect = async (reciter: string) => {
   const reciterUrl = getRecitationUrlsForAyahRange(startAyah, endAyah, surahNumber, reciter)
   const durations = await getDurationsForUrls(reciterUrl)
   console.log("THIS IS DURATIONS:::",durations)
-  onAudioChange(reciterUrl, "recitation", durations)
+  onAudioChange(reciterUrl, "recitation", durations.filter(duration => duration !== null))
 }  
   const handleCustomAudio = () => {
     if (customAudioUrl) {

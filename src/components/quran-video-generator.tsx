@@ -78,6 +78,7 @@ export function QuranVideoGenerator() {
     setConfig((prev) => ({ ...prev, audioUrl, audioType }));
     setAudioDurations(durations || []);
   };
+  
   console.log("THIS IS DURATIONS",audioDurations)
   
   const handleConfigChange = (patch: Partial<VideoConfig>) => setConfig((prev) => ({ ...prev, ...patch }))

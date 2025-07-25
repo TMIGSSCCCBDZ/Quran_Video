@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       const closingDuration = config.closingDuration || 1; // Reduced from 2 to 1 second
       const fps = config.fps || 30;
       const totalAyahSeconds = audioDurations.length === ayahs.length
-        ? audioDurations.reduce((sum, dur) => sum + (dur || 8), 0)
+        ? audioDurations.reduce((sum:any, dur) => sum + (dur || 8), 0)
         : ayahs.length * (config.ayahDuration || 8);
 
       const totalDurationSeconds = titleDuration + totalAyahSeconds + closingDuration;
@@ -150,13 +150,13 @@ export async function POST(request: NextRequest) {
       console.error('CLI approach failed:', cliError);
       
       // **IMPROVED: Better fallback with error details**
-      if (cliError.signal === 'SIGTERM' || cliError.killed) {
+      if ((cliError as any)?.signal   === 'SIGTERM' || (cliError as any)?.killed) {
         return NextResponse.json({
           error: "Video rendering timed out",
           suggestion: "Try reducing video duration or ayah count",
           details: {
-            signal: cliError.signal,
-            killed: cliError.killed,
+            signal: (cliError as any).signal,
+            killed: (cliError as any).killed,
             timeout: true,
             ayahCount: ayahs.length,
             estimatedDuration: ayahs.length * 5 + 3
@@ -273,13 +273,13 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { 
             error: "Both rendering approaches failed", 
-            cliError: cliError.message,
-            programmaticError: programmaticError.message,
+            cliError: (cliError as any).message,
+            programmaticError: (programmaticError as any).message,
             suggestion: "Check your Remotion setup, reduce video length, or try with fewer ayahs",
             debug: {
               ayahCount: ayahs.length,
               estimatedDuration: ayahs.length * 5 + 3,
-              wasTimeout: cliError.signal === 'SIGTERM'
+              wasTimeout: (cliError as any).signal === 'SIGTERM'
             }
           }, 
           { status: 500 }

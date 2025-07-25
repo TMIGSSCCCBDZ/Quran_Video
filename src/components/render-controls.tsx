@@ -16,12 +16,15 @@ interface RenderControlsProps {
 }
 
 const themeColors = [
+  { name: "White", value: "#ffffff", bg: "bg-white " },
+  { name: "Black", value: "#000000", bg: "bg-black" },
   { name: "Emerald", value: "#059669", bg: "bg-emerald-600" },
   { name: "Blue", value: "#2563eb", bg: "bg-blue-600" },
   { name: "Purple", value: "#7c3aed", bg: "bg-purple-600" },
   { name: "Gold", value: "#d97706", bg: "bg-amber-600" },
   { name: "Rose", value: "#e11d48", bg: "bg-rose-600" },
 ]
+
 
 const backgroundColors = [
   { name: "Dark Slate", value: "#1e293b", bg: "bg-slate-800" },

@@ -40,6 +40,7 @@ export const CapcutTemplate: React.FC<TemplateProps> = ({
   backgroundColor: legacyBackgroundColor,
   audioUrl: legacyAudioUrl,
   audioDurations = [],
+
 }) => {
   const frame = useCurrentFrame()
   const { fps: videoFps, durationInFrames } = useVideoConfig()
@@ -106,9 +107,7 @@ export const CapcutTemplate: React.FC<TemplateProps> = ({
               top: '-2.5%',
               left: '-2.5%',
               zIndex: 0,
-              // Subtle, elegant filter: slight warmth, soft focus
-              filter: `saturate(1.1) brightness(0.85) contrast(1.05) blur(1px)`,
-              opacity: 0.25, // Lower opacity for subtlety
+        
             }}
           />
            {/* Removed VHS Static Overlay */}

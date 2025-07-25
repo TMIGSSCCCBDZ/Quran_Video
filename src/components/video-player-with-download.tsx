@@ -55,41 +55,16 @@ export function VideoPlayerWithDownload({ videoUrl, ayahs }: VideoPlayerWithDown
             )}
           </div>
 
+
           <div className="flex flex-wrap gap-3 justify-center">
             <Button onClick={handleDownload} size="lg" className="flex items-center gap-2">
               <Download className="h-5 w-5" />
               Download Video
             </Button>
 
-            <Button variant="outline" onClick={handleCopyLink} className="flex items-center gap-2 bg-transparent">
-              {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? "Copied!" : "Copy Link"}
-            </Button>
+        
 
-            <Button
-              variant="outline"
-              onClick={() =>
-                window.open(
-                  `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(videoUrl)}`,
-                  "_blank",
-                )
-              }
-              className="flex items-center gap-2"
-            >
-              <Twitter className="h-4 w-4" />
-              Share on Twitter
-            </Button>
-
-            <Button
-              variant="outline"
-              onClick={() =>
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(videoUrl)}`, "_blank")
-              }
-              className="flex items-center gap-2"
-            >
-              <Facebook className="h-4 w-4" />
-              Share on Facebook
-            </Button>
+          
           </div>
         </CardContent>
       </Card>
@@ -107,7 +82,7 @@ export function VideoPlayerWithDownload({ videoUrl, ayahs }: VideoPlayerWithDown
             <div className="flex justify-between items-center">
               <span className="text-sm text-slate-600 dark:text-slate-400">Verses:</span>
               <Badge variant="secondary">
-                {ayahs[0]?.number} - {ayahs[ayahs.length - 1]?.number}
+                {ayahs[0]?.numberInSurah} - {ayahs[ayahs.length - 1]?.numberInSurah}
               </Badge>
             </div>
             <div className="flex justify-between items-center">
@@ -118,10 +93,10 @@ export function VideoPlayerWithDownload({ videoUrl, ayahs }: VideoPlayerWithDown
         </CardContent>
       </Card>
 
-      <div className="text-center text-sm text-slate-500 dark:text-slate-400">
-        <p>May Allah accept this effort and make it beneficial for all who see it.</p>
-        <p className="mt-1">Please share with others to spread the beauty of the Quran.</p>
-      </div>
+  <div className="text-center text-sm text-slate-500 dark:text-slate-400">
+  <p>نسأل الله أن يتقبّل منك هذا العمل، ويجعله في ميزان حسناتك 🤍</p>
+  <p className="mt-1">شارك هذا المقطع مع من تُحب، لعلّه يكون نورًا يهتدي به قلب 💫</p>
+</div>
     </div>
   )
 }

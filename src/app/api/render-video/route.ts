@@ -52,9 +52,12 @@ export async function POST(request: NextRequest) {
       // Detect serverless environment more reliably
       const isServerless = !!(
         process.env.VERCEL || 
+
         process.env.AWS_LAMBDA_FUNCTION_NAME || 
         process.env.LAMBDA_TASK_ROOT ||
         process.env.AWS_EXECUTION_ENV ||
+          process.env.FORCE_SERVERLESS ||
+
         !fsSync.existsSync(path.join(process.cwd(), 'public'))
       );
 
@@ -135,6 +138,7 @@ export async function POST(request: NextRequest) {
         ? `/tmp/temp-props-${Date.now()}.json`
         : path.join(process.cwd(), 'temp-props.json');
       
+
       const renderProps = {
         ayahs,
         config: {

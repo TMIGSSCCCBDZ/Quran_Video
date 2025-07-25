@@ -13,11 +13,10 @@ const amiri = Amiri({
 })
 
 export const metadata: Metadata = {
-  title: "Quran Video Generator - Create Beautiful Quranic Videos",
+  title: "نور القرآن - صمّم فيديوهات قرآنية ",
   description:
-    "Generate videos of Quranic verses with professional templates, audio synchronization, and multiple styles.",
-  keywords: "Quran, Islamic videos, Quranic verses, video generator, Islamic content",
-    
+    "أنشئ فيديوهات للآيات القرآنية بتنسيقات احترافية، مع مزامنة صوتية، وخيارات تصميم متعددة تنشر نور القرآن بجمال.",
+  keywords: "Quran, Ayat, Islamic videos, Islamic content, Quranic verses,القرآن الكريم, فيديوهات إسلامية, آيات قرآنية, منشئ فيديو, محتوى إسلامي, تصميم فيديوهات قرآن",
 }
 
 export default function RootLayout({

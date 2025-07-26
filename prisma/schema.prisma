@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// schema.prisma
+
+
+// Add this to your schema.prisma file
+
+model Video {
+  id           String   @id @default(cuid())
+  filename     String
+  originalName String
+  mimeType     String   @default("video/mp4")
+  size         Int      // File size in bytes
+  data         Bytes    // The actual video file as binary data
+  metadata     Json?    // Store video metadata (duration, ayah count, template, etc.)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("videos")
+}
+// model VideoMetadata {
+//   id         String   @id @default(cuid())
+//   duration   BigInt   // In seconds or milliseconds
+//   ayahCount  Int
+//   template   String
+//   resolution String   @default("1920x1080")
+//   frames     Int
+//   createdAt  DateTime
+//   config     Json     // Full config object
+//   videos     Video[]
+//   updatedAt  DateTime @updatedAt
+// }

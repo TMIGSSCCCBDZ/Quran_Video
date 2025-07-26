@@ -12,6 +12,7 @@ export async function getAudioDurationFromUrlNode(url: string): Promise<number |
   } catch (e) {
     console.error('Failed to get duration for', url, e);
     return null;
+    
   }
 }
 

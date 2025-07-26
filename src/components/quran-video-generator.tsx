@@ -83,7 +83,7 @@ export function QuranVideoGenerator() {
   
   const handleConfigChange = (patch: Partial<VideoConfig>) => setConfig((prev) => ({ ...prev, ...patch }))
   const handleRender = async () => {
-    
+    console.log("THIS IS CONFIG:::",config)
 
     if (ayahs.length === 0) {
       toast({
@@ -102,37 +102,40 @@ export function QuranVideoGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ayahs, config }),
       })
+       const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+
+   
+
       
-      
-      console.log("THIS IS CONFIG",config)
       /**
-       * Some 4xx/5xx responses from the API might return plain-text
-       * ("Internal server error") instead of JSON.  Attempt to read
-       * JSON only when the `Content-Type` header suggests it, so we
-       * don’t hit a `SyntaxError: Unexpected token …`.
-       */
-      let json: any = undefined
-      const isJson = res.headers.get("content-type")?.includes("application/json")
+      //  * Some 4xx/5xx responses from the API might return plain-text
+      //  * ("Internal server error") instead of JSON.  Attempt to read
+      //  * JSON only when the `Content-Type` header suggests it, so we
+      //  * don’t hit a `SyntaxError: Unexpected token …`.
+      //  */
+      // let json: any = undefined
+      // const isJson = res.headers.get("content-type")?.includes("application/json")
 
-      if (isJson) {
-        try {
-          json = await res.json()
-        } catch {
-          /* JSON parse failed – fall through to text extraction below   */
-        }
+      // if (isJson) {
+      //   try {
+      //     json = await res.json()
+      //   } catch {
+      //     /* JSON parse failed – fall through to text extraction below   */
+      //   }
+      // }
+
+      // if (!isJson || json === undefined) {
+      //   // fallback to plain text for better diagnostics
+      //   const text = await res.text()
+      //   throw new Error(text || "Unexpected server response")
+      // }
+
+      if (!res.ok) {
+        throw new Error("Failed to render video")
       }
 
-      if (!isJson || json === undefined) {
-        // fallback to plain text for better diagnostics
-        const text = await res.text()
-        throw new Error(text || "Unexpected server response")
-      }
-
-      if (!res.ok || !json?.success) {
-        throw new Error(json?.error || json?.details || "Failed to render video")
-      }
-
-      setVideoUrl(json.videoUrl)
+      setVideoUrl(url)
       toast({ title: "Video ready!", description: "Scroll down to preview and download it." })
     } catch (err: unknown) {
       console.error(err)
@@ -142,12 +145,16 @@ export function QuranVideoGenerator() {
         description: "Something went wrong while generating the video.",
         variant: "destructive",
       })
-    } finally {
+    } 
+    
+    finally {
       setIsRendering(false)
     }
-  }
+  
+
+}
  
-  console.log("THIS IS AYAYHS",ayahs)
+  // console.log("THIS IS AYAYHS",ayahs)
   // -------------------------------------------------
   // UI
   // -------------------------------------------------
@@ -156,6 +163,7 @@ export function QuranVideoGenerator() {
       {/* Left column – all inputs */}
       <div className="space-y-10">
         <AyahSelector onAyahsSelected={setAyahs} />
+
 
         <TemplatePicker
           selectedTemplate={config.template}

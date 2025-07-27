@@ -84,6 +84,7 @@ export function QuranVideoGenerator() {
   const handleConfigChange = (patch: Partial<VideoConfig>) => setConfig((prev) => ({ ...prev, ...patch }))
   const handleRender = async () => {
     console.log("THIS IS CONFIG:::",config)
+    
 
     if (ayahs.length === 0) {
       toast({
@@ -102,40 +103,42 @@ export function QuranVideoGenerator() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ayahs, config }),
       })
-       const blob = await res.blob();
-  const url = URL.createObjectURL(blob);
+  //      const blob = await res.blob();
+  // const url = URL.createObjectURL(blob);
 
    
 
       
+
       /**
       //  * Some 4xx/5xx responses from the API might return plain-text
       //  * ("Internal server error") instead of JSON.  Attempt to read
       //  * JSON only when the `Content-Type` header suggests it, so we
       //  * don’t hit a `SyntaxError: Unexpected token …`.
       //  */
-      // let json: any = undefined
-      // const isJson = res.headers.get("content-type")?.includes("application/json")
+       let json: any = undefined
+       const isJson = res.headers.get("content-type")?.includes("application/json")
 
-      // if (isJson) {
-      //   try {
-      //     json = await res.json()
-      //   } catch {
+       if (isJson) {
+         try {
+           json = await res.json()
+           console.log(json)
+         } catch {
       //     /* JSON parse failed – fall through to text extraction below   */
-      //   }
-      // }
+         }
+       }
 
-      // if (!isJson || json === undefined) {
-      //   // fallback to plain text for better diagnostics
-      //   const text = await res.text()
-      //   throw new Error(text || "Unexpected server response")
-      // }
+       if (!isJson || json === undefined) {
+         // fallback to plain text for better diagnostics
+         const text = await res.text()
+         throw new Error(text || "Unexpected server response")
+       }
 
       if (!res.ok) {
         throw new Error("Failed to render video")
       }
 
-      setVideoUrl(url)
+      setVideoUrl(json.videoUrl)
       toast({ title: "Video ready!", description: "Scroll down to preview and download it." })
     } catch (err: unknown) {
       console.error(err)

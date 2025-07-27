@@ -100,12 +100,9 @@ export const CapcutTemplate: React.FC<TemplateProps> = ({
           <img
             src={backgroundVideoUrl}
             style={{
-              width: '105%', // Slight zoom
-              height: '105%',
+              width: '100%', // Slight zoom
+              height: '100%',
               objectFit: 'cover',
-              position: 'absolute',
-              top: '-2.5%',
-              left: '-2.5%',
               zIndex: 0,
         
             }}

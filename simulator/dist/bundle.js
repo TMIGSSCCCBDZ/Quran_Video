@@ -10389,13 +10389,10 @@ const CapcutTemplate = ({
     {
       src: backgroundVideoUrl,
       style: {
-        width: "105%",
+        width: "100%",
         // Slight zoom
-        height: "105%",
+        height: "100%",
         objectFit: "cover",
-        position: "absolute",
-        top: "-2.5%",
-        left: "-2.5%",
         zIndex: 0
       }
     }
@@ -10404,7 +10401,7 @@ const CapcutTemplate = ({
     if (!currentAudioUrl) return null;
     const framesPerAyah = getFramesForAyah(index);
     const audioStartFrame = titleDuration + ayahs.slice(0, index).reduce((sum, _, i) => sum + getFramesForAyah(i), 0);
-    const audioDuration = Math.min(framesPerAyah, durationInFrames - audioStartFrame);
+    const audioDuration = Math.max(framesPerAyah, durationInFrames - audioStartFrame);
     if (audioStartFrame >= durationInFrames) return null;
     if (audioDuration <= 0) return null;
     return /* @__PURE__ */ React.createElement(

@@ -1,13 +1,6 @@
 Quran Video
 A real-time Quran video  that streams and displays dynamic content. This project is structured for development efficiency.
 
-📁 Project Structure
-quran-video/
-│
-├── public/ # Static assets
-├── src/ # Frontend source code
-├── package.json
-└── README.md
 
 ⚙️ Prerequisites
 Make sure the following are installed on your machine:

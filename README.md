@@ -26,13 +26,10 @@ cd quran-video
 2. Install Dependencies
 npm install
 
-🧪 Running the Application
-You’ll need two terminal windows or tabs to run both the simulator and the frontend.
-
 
 This starts the backend simulator which pushes data to the frontend.
 
-💻 Terminal 2 – Start the Frontend Dev Server
+💻 Terminal – Start the Frontend Dev Server
 Make sure you're in the root quran-video directory:
 
 npm run dev

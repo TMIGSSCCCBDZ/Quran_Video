@@ -1,11 +1,10 @@
 Quran Video
-A real-time Quran video  that streams and displays dynamic content using a simulator backend. This project is structured for development efficiency, allowing seamless communication between a Node.js simulator and a modern frontend dev server.
+A real-time Quran video  that streams and displays dynamic content. This project is structured for development efficiency.
 
 📁 Project Structure
 quran-video/
 │
 ├── public/ # Static assets
-├── simulator/ # Simulator backend using Node.js (index.mjs)
 ├── src/ # Frontend source code
 ├── package.json
 └── README.md
@@ -30,9 +29,6 @@ npm install
 🧪 Running the Application
 You’ll need two terminal windows or tabs to run both the simulator and the frontend.
 
-▶️ Terminal 1 – Run the Simulator
-cd simulator
-node ./index.mjs
 
 This starts the backend simulator which pushes data to the frontend.
 
@@ -45,34 +41,9 @@ This launches the development server, usually accessible at:
 
 http://localhost:3000
 
-🧩 Features
-✅ Real-time video simulation with Quranic content
 
-✅ Custom backend simulator for dynamic streaming
 
-✅ Modern frontend stack (Vite + React or your stack)
 
-✅ Easy development workflow with two-terminal setup
-
-🛠️ Tech Stack
-Node.js – Simulator backend
-
-Vite – Fast frontend tooling
-
-React – Frontend framework (if used; replace if different)
-
-JavaScript/TypeScript – Project language
-
-Socket.io (or similar WebSocket library, if applicable)
-
-📌 Notes
-Always start the simulator first before running the frontend.
-
-If something doesn't work, try stopping both terminals and restarting them in the correct order.
-
-📄 License
-This project is licensed under the MIT License.
-Feel free to use, modify, and distribute with attribution.
 
 🙏 Acknowledgements
 Thanks to everyone who contributed to the development of this project. Your efforts are deeply appreciated.
@@ -82,14 +53,4 @@ For questions, feedback, or contributions:
 
 Open an issue on the repository
 
-Email: [your.email@example.com]
-
-Let me know if you'd like to:
-
-Add a project screenshot or GIF demo
-
-Include .env instructions if environment variables are required
-
-Add deployment steps (e.g. Vercel, Netlify)
-
-Include contributor guidelines
+Email: zessam804@gmail.com

@@ -1,5 +1,5 @@
 Quran Video
-A real-time Quran video  that streams and displays dynamic content. This project is structured for development efficiency.
+A real-time Quran video  that streams and displays dynamic content.
 
 
 ⚙️ Prerequisites
@@ -13,7 +13,7 @@ npm (comes with Node.js)
 Follow these steps to run the project locally:
 
 1. Clone the Repository
-git clone https://github.com/your-username/quran-video.git
+git clone https://github.com/TMIGSSCCCBDZ/quran-video.git
 cd quran-video
 
 2. Install Dependencies
@@ -30,9 +30,6 @@ npm run dev
 This launches the development server, usually accessible at:
 
 http://localhost:3000
-
-
-
 
 
 🙏 Acknowledgements
